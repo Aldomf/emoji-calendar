@@ -72,3 +72,10 @@ body, html, #root { height: 100%; margin: 0; font-family: "Segoe UI", Roboto, Ar
 .emoji-btn { font-size:24px; padding:8px; border-radius:6px; background:#222; color:#fff; border:1px solid #333; cursor:pointer; }
 .clear-btn, .close-btn { padding:8px 12px; border-radius:6px; background:#222; color:#fff; border:1px solid #444; cursor:pointer; }
 button:focus { outline:2px solid #6EE7B7; outline-offset:2px; }
+
+/* Today highlight */
+.today-cell {
+  background-color: lightblue;
+  border: 2px solid blue;
+  border-radius: 8px;
+}

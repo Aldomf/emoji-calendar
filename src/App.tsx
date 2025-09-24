@@ -20,6 +20,7 @@ function formatDateLocal(d: Date): string {
 export default function App() {
   // Date.now() is UTC, so we need to use local time to get the current month/year
   const today = new Date();
+  today.setHours(0, 0, 0, 0); // reset to midnight for comparison
 
   // states
   const [month, setMonth] = useState<number>(today.getMonth()); // 0-11
@@ -79,7 +80,7 @@ export default function App() {
     setSelectedKey(null);
   }
 
-  // compute stats
+  // compute stats (healthy/unhealthy %)
   const total = Object.keys(data).length;
   let healthyCount = 0;
   let unhealthyCount = 0;
@@ -92,6 +93,49 @@ export default function App() {
   const healthyPct = total > 0 ? Math.round((healthyCount / total) * 100) : 0;
   const unhealthyPct =
     total > 0 ? Math.round((unhealthyCount / total) * 100) : 0;
+
+  // streaks
+  const sortedKeys = Object.keys(data).sort();
+  let currentHealthy = 0;
+  let maxHealthy = 0;
+
+  let currentUnhealthy = 0;
+  let maxUnhealthy = 0;
+
+  let prevDate: Date | null = null;
+
+  for (const key of sortedKeys) {
+    const emoji = data[key];
+    const date = new Date(key);
+
+    // check if it's exactly 1 day after the previous date
+    const isConsecutive =
+      prevDate && date.getTime() - prevDate.getTime() === 24 * 60 * 60 * 1000;
+
+    // Healthy streak
+    if (HEALTHY.includes(emoji)) {
+      if (isConsecutive) {
+        currentHealthy++;
+      } else {
+        currentHealthy = 1;
+      }
+      maxHealthy = Math.max(maxHealthy, currentHealthy);
+      currentUnhealthy = 0; // reset opposite streak
+    }
+
+    // Unhealthy streak
+    if (UNHEALTHY.includes(emoji)) {
+      if (isConsecutive) {
+        currentUnhealthy++;
+      } else {
+        currentUnhealthy = 1;
+      }
+      maxUnhealthy = Math.max(maxUnhealthy, currentUnhealthy);
+      currentHealthy = 0; // reset opposite streak
+    }
+
+    prevDate = date;
+  }
 
   return (
     <div className="app">
@@ -133,16 +177,21 @@ export default function App() {
 
           {/* grid */}
           <div className="grid">
-            {cells.map(({ date, inCurrentMonth, key }) => (
-              <div
-                key={key}
-                className={`day ${inCurrentMonth ? "current" : "muted"}`}
-                onClick={() => setSelectedKey(key)}
-              >
-                <span className="day-number">{date.getDate()}</span>
-                <div className="emoji">{data[key] ?? ""}</div>
-              </div>
-            ))}
+            {cells.map(({ date, inCurrentMonth, key }) => {
+              const isToday = date.getTime() === today.getTime(); // check if this cell is today
+              return (
+                <div
+                  key={key}
+                  className={`day ${inCurrentMonth ? "current" : "muted"} ${
+                    isToday ? "today-cell" : ""
+                  }`}
+                  onClick={() => setSelectedKey(key)}
+                >
+                  <span className="day-number">{date.getDate()}</span>
+                  <div className="emoji">{data[key] ?? ""}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -150,6 +199,11 @@ export default function App() {
         <div className="right-panel">
           🥦 {healthyPct}% <br />
           🍔 {unhealthyPct}%
+          <hr />
+          <div>🥦 Current streak: {currentHealthy}</div>
+          <div>🥦 Longest streak: {maxHealthy}</div>
+          <div>🍔 Current streak: {currentUnhealthy}</div>
+          <div>🍔 Longest streak: {maxUnhealthy}</div>
         </div>
       </div>
 
