@@ -1,0 +1,74 @@
+* { box-sizing: border-box; }
+body, html, #root { height: 100%; margin: 0; font-family: "Segoe UI", Roboto, Arial, sans-serif; overflow-x: hidden; }
+.app {
+  color: #fff;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+/* Main content */
+.main-content { display:flex; flex-direction:row; border: #7E57C2 1px solid;  }
+
+/* Calendar */
+.calendar { flex: 4; display: flex; flex-direction: column; align-items: center; background: #000; padding: 30px; }
+
+/* Left panel */
+/* Header */
+.header { display:flex; align-items:center; gap:18px; margin-bottom:6px; }
+.title { color:#8A2BE2; font-size:36px; font-weight:800; letter-spacing:2px; }
+.nav {
+  background:transparent;
+  border:2px solid #8A2BE2;
+  color:#8A2BE2;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:18px;
+}
+
+/* small control row */
+.controls { margin-bottom:8px; }
+.today-btn { padding:6px 10px; border-radius:6px; background:#111; border:1px solid #333; color:#fff; cursor:pointer; }
+
+/* Weekdays */
+.weekdays { display:grid; grid-template-columns:repeat(7, 1fr); gap:6px; margin:12px 0; width:100%; max-width:100%; }
+.wd { text-align:center; color:#7E57C2; font-weight:700; font-size:18px; }
+
+/* Grid */
+.grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:8px; width:100%; max-width:100%; }
+.day {
+  border:4px solid #1E90FF;
+  aspect-ratio: 1 / 1;  /* perfect squares */
+  height: auto;         /* remove fixed 120px */
+  border-radius:6px;
+  position:relative;
+  background:transparent;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.day-number { position:absolute; top:6px; left:8px; color:#f4a300; font-weight:700; font-size:20px; }
+.emoji { font-size:34px; }
+.muted { opacity:0.25; }
+
+/* Right panel */
+.right-panel { flex: 1; background:#111; padding:24px; }
+
+/* Picker */
+.picker {
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:24px;
+  background:#111;
+  border:2px solid #2B6CB0;
+  padding:12px 16px;
+  border-radius:8px;
+  z-index: 100;
+}
+.picker-title { color:#ccc; margin-bottom:8px; font-size:14px; text-align:center; }
+.picker-row { display:flex; gap:8px; align-items:center; justify-content:center; flex-wrap:wrap; }
+.emoji-btn { font-size:24px; padding:8px; border-radius:6px; background:#222; color:#fff; border:1px solid #333; cursor:pointer; }
+.clear-btn, .close-btn { padding:8px 12px; border-radius:6px; background:#222; color:#fff; border:1px solid #444; cursor:pointer; }
+button:focus { outline:2px solid #6EE7B7; outline-offset:2px; }
