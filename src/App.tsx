@@ -179,12 +179,13 @@ export default function App() {
           <div className="grid">
             {cells.map(({ date, inCurrentMonth, key }) => {
               const isToday = date.getTime() === today.getTime(); // check if this cell is today
+              const isSelected = key === selectedKey; // check if this cell is selected
               return (
                 <div
                   key={key}
                   className={`day ${inCurrentMonth ? "current" : "muted"} ${
                     isToday ? "today-cell" : ""
-                  }`}
+                  } ${isSelected ? "selected-cell" : ""}`}
                   onClick={() => setSelectedKey(key)}
                 >
                   <span className="day-number">{date.getDate()}</span>

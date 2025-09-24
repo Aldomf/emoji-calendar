@@ -79,3 +79,10 @@ button:focus { outline:2px solid #6EE7B7; outline-offset:2px; }
   border: 2px solid blue;
   border-radius: 8px;
 }
+
+/* Selected day highlight */
+.selected-cell {
+  background-color: #FFD700; /* gold background */
+  border: 4px solid #FF4500; /* orange-red border */
+}
+
