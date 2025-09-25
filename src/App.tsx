@@ -20,10 +20,18 @@ export default function App() {
     }
   });
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }, [data]);
+
+  useEffect(() => {
+  const handleResize = () => setIsMobile(window.innerWidth < 768);
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
 
   const changeMonth = (delta: number) => {
     const newDate = new Date(year, month + delta, 1);
@@ -55,6 +63,9 @@ export default function App() {
       <div className="main-content">
         <div className="calendar">
           <CalendarHeader
+            isMobile={isMobile}
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
             month={month}
             year={year}
             changeMonth={changeMonth}
@@ -69,7 +80,7 @@ export default function App() {
             today={today}
           />
         </div>
-        <RightPanel data={data} />
+        <RightPanel data={data} sidebarOpen={sidebarOpen} />
       </div>
 
       {selectedKey && (

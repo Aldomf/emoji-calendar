@@ -2,9 +2,10 @@ import { HEALTHY, UNHEALTHY } from "../consts/constants";
 
 type Props = {
   data: Record<string, string>;
+  sidebarOpen: boolean;
 };
 
-export default function RightPanel({ data }: Props) {
+export default function RightPanel({ data, sidebarOpen }: Props) {
   const total = Object.keys(data).length;
   let healthyCount = 0;
   let unhealthyCount = 0;
@@ -52,7 +53,7 @@ export default function RightPanel({ data }: Props) {
   }
 
   return (
-    <div className="right-panel">
+    <div className={`right-panel ${sidebarOpen ? "open" : ""}`}>
       🥦 {healthyPct}% <br />
       🍔 {unhealthyPct}% 
       <hr />
