@@ -1,5 +1,5 @@
 * { box-sizing: border-box; }
-body, html, #root { height: 100%; margin: 0; font-family: "Segoe UI", Roboto, Arial, sans-serif; overflow-x: hidden; }
+body, html, #root { height: 100%; margin: 0; font-family: "Segoe UI", Roboto, Arial, sans-serif; overflow-x: hidden;background: #000 }
 .app {
   color: #fff;
   min-height: 100vh;
