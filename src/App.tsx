@@ -78,6 +78,8 @@ export default function App() {
             selectedKey={selectedKey}
             setSelectedKey={setSelectedKey}
             today={today}
+            setMonth={setMonth}
+            setYear={setYear}
           />
         </div>
         <RightPanel data={data} sidebarOpen={sidebarOpen} />

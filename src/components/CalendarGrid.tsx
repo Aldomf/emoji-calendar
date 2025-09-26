@@ -7,6 +7,8 @@ type Props = {
   selectedKey: string | null;
   setSelectedKey: (key: string) => void;
   today: Date;
+  setMonth: (month: number) => void;
+  setYear: (year: number) => void;
 };
 
 export default function CalendarGrid({
@@ -16,6 +18,8 @@ export default function CalendarGrid({
   selectedKey,
   setSelectedKey,
   today,
+  setMonth,
+  setYear,
 }: Props) {
   const firstDayIndex = new Date(year, month, 1).getDay();
   const cells: { date: Date; inCurrentMonth: boolean; key: string }[] = [];
@@ -47,7 +51,9 @@ export default function CalendarGrid({
           // Verificar si todos los días de la semana son "🥦"
           const fullWeekBroccoli = weekCells.every((c) => data[c.key] === "🥦");
 
-          const fullWeekHamburger = weekCells.every((c) => data[c.key] === "🍔");
+          const fullWeekBadFood = weekCells.every(
+            (c) => data[c.key] === "🍔" || data[c.key] === "🎂"
+          );
           return (
             <div
               key={key}
@@ -55,10 +61,15 @@ export default function CalendarGrid({
                 isToday ? "today-cell" : ""
               } ${isSelected ? "selected-cell" : ""} ${
                 fullWeekBroccoli ? "good-week" : ""
-              } ${
-                fullWeekHamburger ? "bad-week" : ""
-              }`}
-              onClick={() => setSelectedKey(key)}
+              } ${fullWeekBadFood ? "bad-week" : ""}`}
+              onClick={() => {
+                // Cambiar mes si la celda no pertenece al mes actual
+                if (!inCurrentMonth) {
+                  setMonth(date.getMonth());
+                  setYear(date.getFullYear());
+                }
+                setSelectedKey(key);
+              }}
             >
               <span className="day-number">{date.getDate()}</span>
               <div className="emoji">{data[key] ?? ""}</div>
