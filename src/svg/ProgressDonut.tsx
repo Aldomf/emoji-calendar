@@ -20,7 +20,7 @@ export default function ProgressDonut({
   // Emoji logic
   let moodEmoji = "😐"; // default neutral
 
-  if (healthyPct >= 95) moodEmoji = "👑";
+  if (healthyPct >= 95) moodEmoji = "❤️";
   else if (healthyPct >= 90) moodEmoji = "🤩";
   else if (healthyPct >= 80) moodEmoji = "😁";
   else if (healthyPct >= 70) moodEmoji = "🙂";
@@ -45,34 +45,38 @@ export default function ProgressDonut({
       />
 
       {/* Healthy segment */}
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={radius}
-        fill="transparent"
-        stroke="green"
-        strokeWidth={strokeWidth}
-        strokeDasharray={`${healthyLength} ${circumference - healthyLength}`}
-        strokeDashoffset={0}
-        strokeLinecap="round"
-        transform={`rotate(-90 ${size / 2} ${size / 2})`}
-      />
+      {healthyPct > 0 && (
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="transparent"
+          stroke="green"
+          strokeWidth={strokeWidth}
+          strokeDasharray={`${healthyLength} ${circumference - healthyLength}`}
+          strokeDashoffset={0}
+          strokeLinecap="round"
+          transform={`rotate(-90 ${size / 2} ${size / 2})`}
+        />
+      )}
 
       {/* Unhealthy segment */}
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={radius}
-        fill="transparent"
-        stroke="red"
-        strokeWidth={strokeWidth}
-        strokeDasharray={`${unhealthyLength} ${
-          circumference - unhealthyLength
-        }`}
-        strokeDashoffset={-healthyLength}
-        strokeLinecap="round"
-        transform={`rotate(-90 ${size / 2} ${size / 2})`}
-      />
+      {unhealthyPct > 0 && (
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="transparent"
+          stroke="red"
+          strokeWidth={strokeWidth}
+          strokeDasharray={`${unhealthyLength} ${
+            circumference - unhealthyLength
+          }`}
+          strokeDashoffset={-healthyLength}
+          strokeLinecap="round"
+          transform={`rotate(-90 ${size / 2} ${size / 2})`}
+        />
+      )}
 
       {/* Emoji in the center */}
       <text
@@ -80,7 +84,7 @@ export default function ProgressDonut({
         y="50%"
         dominantBaseline="middle"
         textAnchor="middle"
-        fontSize={size * 0.40}
+        fontSize={size * 0.4}
       >
         {moodEmoji}
       </text>
