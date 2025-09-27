@@ -56,7 +56,7 @@ export default function RightPanel({ data, sidebarOpen }: Props) {
 
   return (
     <div className={`right-panel ${sidebarOpen ? "open" : ""}`}>
-      <h2>Statistics</h2>
+      <h2>Statistics 📈</h2>
       <hr />
       Total days logged: {total}
       <br />
@@ -65,7 +65,7 @@ export default function RightPanel({ data, sidebarOpen }: Props) {
       <br />
       <br />
       <ProgressDonut healthyPct={healthyPct} unhealthyPct={unhealthyPct} />
-      <h2>Streaks</h2>
+      <h2>Streaks 🔥</h2>
       <hr />
       <div>🥦 Current streak: {currentHealthy}</div>
       <div>🥦 Longest streak: {maxHealthy}</div>

@@ -1,5 +1,3 @@
-import React from "react";
-
 interface ProgressDonutProps {
   healthyPct: number; // e.g. 70
   unhealthyPct: number; // e.g. 30
