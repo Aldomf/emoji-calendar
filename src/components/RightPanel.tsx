@@ -1,4 +1,5 @@
 import { HEALTHY, UNHEALTHY } from "../consts/constants";
+import ProgressDonut from "../svg/ProgressDonut";
 
 type Props = {
   data: Record<string, string>;
@@ -55,8 +56,16 @@ export default function RightPanel({ data, sidebarOpen }: Props) {
 
   return (
     <div className={`right-panel ${sidebarOpen ? "open" : ""}`}>
+      <h2>Statistics</h2>
+      <hr />
+      Total days logged: {total}
+      <br />
       🥦 {healthyPct}% <span>({healthyCount})</span> <br />
       🍔 {unhealthyPct}% <span>({unhealthyCount})</span>
+      <br />
+      <br />
+      <ProgressDonut healthyPct={healthyPct} unhealthyPct={unhealthyPct} />
+      <h2>Streaks</h2>
       <hr />
       <div>🥦 Current streak: {currentHealthy}</div>
       <div>🥦 Longest streak: {maxHealthy}</div>
