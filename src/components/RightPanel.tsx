@@ -17,7 +17,8 @@ export default function RightPanel({ data, sidebarOpen }: Props) {
   }
 
   const healthyPct = total > 0 ? Math.round((healthyCount / total) * 100) : 0;
-  const unhealthyPct = total > 0 ? Math.round((unhealthyCount / total) * 100) : 0;
+  const unhealthyPct =
+    total > 0 ? Math.round((unhealthyCount / total) * 100) : 0;
 
   // Calculate streaks
   const sortedKeys = Object.keys(data).sort();
@@ -54,8 +55,8 @@ export default function RightPanel({ data, sidebarOpen }: Props) {
 
   return (
     <div className={`right-panel ${sidebarOpen ? "open" : ""}`}>
-      🥦 {healthyPct}% <br />
-      🍔 {unhealthyPct}% 
+      🥦 {healthyPct}% <span>({healthyCount})</span> <br />
+      🍔 {unhealthyPct}% <span>({unhealthyCount})</span>
       <hr />
       <div>🥦 Current streak: {currentHealthy}</div>
       <div>🥦 Longest streak: {maxHealthy}</div>
