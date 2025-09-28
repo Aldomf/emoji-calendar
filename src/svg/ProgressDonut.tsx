@@ -3,16 +3,20 @@ interface ProgressDonutProps {
   unhealthyPct: number; // e.g. 30
   size?: number; // optional size
   strokeWidth?: number;
+  filteredData: Record<string, string>;
 }
 
 export default function ProgressDonut({
   healthyPct,
   unhealthyPct,
+  filteredData,
   size = 150,
   strokeWidth = 20,
 }: ProgressDonutProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
+
+  const total = Object.keys(filteredData).length;
 
   const healthyLength = (circumference * healthyPct) / 100;
   const unhealthyLength = (circumference * unhealthyPct) / 100;
@@ -20,6 +24,7 @@ export default function ProgressDonut({
   // Emoji logic
   let moodEmoji = "😐"; // default neutral
 
+  if (total > 0) {
   if (healthyPct >= 95) moodEmoji = "❤️";
   else if (healthyPct >= 90) moodEmoji = "🤩";
   else if (healthyPct >= 80) moodEmoji = "😁";
@@ -31,6 +36,10 @@ export default function ProgressDonut({
   else if (healthyPct >= 20) moodEmoji = "😨";
   else if (healthyPct >= 10) moodEmoji = "😱";
   else moodEmoji = "💀";
+} else {
+  // no days logged yet
+  moodEmoji = "❓"; 
+}
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>

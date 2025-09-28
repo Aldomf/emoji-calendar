@@ -105,7 +105,7 @@ export default function RightPanel({ data, sidebarOpen, month, year }: Props) {
       🍔 {unhealthyPct}% <span>({unhealthyCount})</span>
       <br />
       <br />
-      <ProgressDonut healthyPct={healthyPct} unhealthyPct={unhealthyPct} />
+      <ProgressDonut healthyPct={healthyPct} unhealthyPct={unhealthyPct} filteredData={filteredData}/>
       <h2>Streaks 🔥</h2>
       <hr />
       <div>🥦 Current streak: {currentHealthy}</div>
