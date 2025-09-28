@@ -82,7 +82,8 @@ export default function App() {
             setYear={setYear}
           />
         </div>
-        <RightPanel data={data} sidebarOpen={sidebarOpen} />
+        <RightPanel data={data} sidebarOpen={sidebarOpen} month={month}
+  year={year}/>
       </div>
 
       {selectedKey && (

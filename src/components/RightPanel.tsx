@@ -1,18 +1,45 @@
+import { useState } from "react";
 import { HEALTHY, UNHEALTHY } from "../consts/constants";
 import ProgressDonut from "../svg/ProgressDonut";
 
 type Props = {
   data: Record<string, string>;
   sidebarOpen: boolean;
+  month: number;
+  year: number;
 };
 
-export default function RightPanel({ data, sidebarOpen }: Props) {
-  const total = Object.keys(data).length;
+export default function RightPanel({ data, sidebarOpen, month, year }: Props) {
+  const [showMonthly, setShowMonthly] = useState(false);
+
+  function parseDateKey(key: string): Date {
+  const [year, month, day] = key.split("-").map(Number);
+  return new Date(year, month - 1, day); // local time, no UTC shift
+}
+
+
+  // Filter data depending on toggle
+  //only show data for current month
+  //const now = new Date();
+  const filteredData = showMonthly
+  ? Object.fromEntries(
+      Object.entries(data).filter(([key]) => {
+        const date = parseDateKey(key);
+        return (
+          date.getMonth() === month &&
+          date.getFullYear() === year
+        );
+      })
+    )
+  : data;
+
+
+  const total = Object.keys(filteredData).length;
   let healthyCount = 0;
   let unhealthyCount = 0;
 
   // Count healthy/unhealthy for percentages
-  for (const emoji of Object.values(data)) {
+  for (const emoji of Object.values(filteredData)) {
     if (HEALTHY.includes(emoji)) healthyCount++;
     if (UNHEALTHY.includes(emoji)) unhealthyCount++;
   }
@@ -22,7 +49,7 @@ export default function RightPanel({ data, sidebarOpen }: Props) {
     total > 0 ? Math.round((unhealthyCount / total) * 100) : 0;
 
   // Calculate streaks
-  const sortedKeys = Object.keys(data).sort();
+  const sortedKeys = Object.keys(filteredData).sort();
   let currentHealthy = 0;
   let maxHealthy = 0;
   let currentUnhealthy = 0;
@@ -30,8 +57,8 @@ export default function RightPanel({ data, sidebarOpen }: Props) {
   let prevDate: Date | null = null;
 
   for (const key of sortedKeys) {
-    const emoji = data[key];
-    const date = new Date(key);
+    const emoji = filteredData[key];
+    const date = parseDateKey(key);
 
     // check if consecutive day
     const isConsecutive =
@@ -56,8 +83,22 @@ export default function RightPanel({ data, sidebarOpen }: Props) {
 
   return (
     <div className={`right-panel ${sidebarOpen ? "open" : ""}`}>
-      <h2>Statistics 📈</h2>
+      <div className="flex justify-between items-center">
+        <h2>Statistics 📈</h2>
+        <button
+          className="toggle-btn"
+          onClick={() => setShowMonthly((prev) => !prev)}
+        >
+          {showMonthly ? "Show All Time" : "Show This Month"}
+        </button>
+      </div>
+
       <hr />
+      <p>
+        <strong>
+          {showMonthly ? "This Month’s Stats" : "All Time Stats"}
+        </strong>
+      </p>
       Total days logged: {total}
       <br />
       🥦 {healthyPct}% <span>({healthyCount})</span> <br />
