@@ -48,8 +48,10 @@ export default function CalendarGrid({
           const weekStartIndex = index - (index % 7);
           const weekCells = cells.slice(weekStartIndex, weekStartIndex + 7);
 
-          // Verificar si todos los días de la semana son "🥦"
-          const fullWeekBroccoli = weekCells.every((c) => data[c.key] === "🥦");
+          // Verificar si todos los días de la semana son "🥦" or "🥘"
+          const fullWeekBroccoli = weekCells.every(
+            (c) => data[c.key] === "🥦" || data[c.key] === "🥘"
+          );
 
           const fullWeekBadFood = weekCells.every(
             (c) => data[c.key] === "🍔" || data[c.key] === "🎂"
